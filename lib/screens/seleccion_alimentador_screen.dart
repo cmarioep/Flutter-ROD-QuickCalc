@@ -14,6 +14,17 @@ class SeleccionAlimentadorScreen extends StatefulWidget {
 
 class _SeleccionAlimentadorScreenState extends State<SeleccionAlimentadorScreen>
     with SingleTickerProviderStateMixin {
+  // ── Tensiones válidas por sistema ───────────────────────────────────────────
+  static const Map<String, Map<String, String>> _voltagesBySystem = {
+    'monofasico': {'120': '120 V', '127': '127 V', '277': '277 V'},
+    'trifasico': {
+      '208': '208 V',
+      '220': '220 V',
+      '440': '440 V',
+      '460': '460 V'
+    },
+  };
+
   // ── Estado formulario principal ───────────────────────────────────────────
   String _material = 'Cu';
   int _temperature = 60;
@@ -58,6 +69,14 @@ class _SeleccionAlimentadorScreenState extends State<SeleccionAlimentadorScreen>
   }
 
   // ── Lógica de cálculo ─────────────────────────────────────────────────────
+
+  void _resetVoltageIfNeeded(String newSystem) {
+    final validVoltages = _voltagesBySystem[newSystem]!;
+    if (!validVoltages.containsKey(_voltageStr)) {
+      _voltageStr = validVoltages.keys.first;
+      _voltage = double.parse(_voltageStr);
+    }
+  }
 
   void _recalculate() {
     final currentVal = double.tryParse(_currentController.text);
@@ -186,8 +205,7 @@ class _SeleccionAlimentadorScreenState extends State<SeleccionAlimentadorScreen>
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(
-              16, 20, 16, MediaQuery.of(context).size.height * 0.12),
+          padding: const EdgeInsets.fromLTRB(16, 20, 16, 80),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
