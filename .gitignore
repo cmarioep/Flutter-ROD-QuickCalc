@@ -1,0 +1,50 @@
+# Documentación y archivos de sistema
+*.log
+*.temp
+*.tmp
+
+# Carpetas de compilación de Flutter y Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+
+# Archivos específicos de Android
+.gradle/
+local.properties
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+*.keystore
+*.jks
+
+# Archivos específicos de iOS y macOS
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/App.framework
+**/ios/Flutter/App.podspec
+**/ios/DerivedData/
+**/ios/.generated/
+**/ios/.pub/
+**/ios/Pods/
+**/ios/.symlinks/
+*.moved-aside
+Podfile.lock
+
+# Archivos de configuración de IDEs (VS Code, IntelliJ, Android Studio)
+.idea/
+*.iml
+*.iws
+.vscode/
+.history/
+
+# Herramientas de análisis y cobertura
+doc/api/
+ios/Flutter/.last_build_id
+.metadata
