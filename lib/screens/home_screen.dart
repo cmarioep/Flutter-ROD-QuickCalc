@@ -5,6 +5,7 @@ import '../widgets/menu_button.dart';
 import 'login_screen.dart';
 import 'seleccion_alimentador_screen.dart';
 import 'caida_tension_screen.dart';
+import 'calcular_corriente_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -164,8 +165,10 @@ class _HomeScreenState extends State<HomeScreen>
                         icon: Icons.electrical_services_rounded,
                         label: 'Calcular Corriente',
                         subtitle: 'Corriente en circuitos eléctricos',
-                        onTap: () =>
-                            _showComingSoon(context, 'Calcular Corriente'),
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (_) => const CalcularCorrienteScreen()),
+                        ),
                       ),
                       const SizedBox(height: 12),
                       MenuButton(
