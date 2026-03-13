@@ -14,6 +14,25 @@ class CalcularCorrienteScreen extends StatefulWidget {
 
 class _CalcularCorrienteScreenState extends State<CalcularCorrienteScreen>
     with SingleTickerProviderStateMixin {
+  // ── Tensiones válidas por sistema ───────────────────────────────────────────
+  static const Map<String, Map<String, String>> _voltagesBySystem = {
+    'monofasico': {
+      '120': '120 V',
+      '127': '127 V',
+      '277': '277 V',
+    },
+    'bifasico': {
+      '240': '240 V',
+      '208': '208 V',
+    },
+    'trifasico': {
+      '208': '208 V',
+      '220': '220 V',
+      '440': '440 V',
+      '460': '460 V',
+    },
+  };
+
   // ── Estado ───────────────────────────────────────────────────────────────
   String _loadType = 'kVA';
   String _systemType = 'trifasico';
@@ -43,6 +62,14 @@ class _CalcularCorrienteScreenState extends State<CalcularCorrienteScreen>
     _resultAnim.dispose();
     _loadController.dispose();
     super.dispose();
+  }
+
+  void _resetVoltageIfNeeded(String newSystem) {
+    final validVoltages = _voltagesBySystem[newSystem]!;
+    if (!validVoltages.containsKey(_voltageStr)) {
+      _voltageStr = validVoltages.keys.first;
+      _voltage = double.parse(_voltageStr);
+    }
   }
 
   void _recalculate() {
@@ -198,7 +225,10 @@ class _CalcularCorrienteScreenState extends State<CalcularCorrienteScreen>
                     value: 'monofasico',
                     group: _systemType,
                     onTap: () {
-                      setState(() => _systemType = 'monofasico');
+                      setState(() {
+                        _systemType = 'monofasico';
+                        _resetVoltageIfNeeded('monofasico');
+                      });
                       _recalculate();
                     },
                   )),
@@ -209,7 +239,10 @@ class _CalcularCorrienteScreenState extends State<CalcularCorrienteScreen>
                     value: 'bifasico',
                     group: _systemType,
                     onTap: () {
-                      setState(() => _systemType = 'bifasico');
+                      setState(() {
+                        _systemType = 'bifasico';
+                        _resetVoltageIfNeeded('bifasico');
+                      });
                       _recalculate();
                     },
                   )),
@@ -220,7 +253,10 @@ class _CalcularCorrienteScreenState extends State<CalcularCorrienteScreen>
                     value: 'trifasico',
                     group: _systemType,
                     onTap: () {
-                      setState(() => _systemType = 'trifasico');
+                      setState(() {
+                        _systemType = 'trifasico';
+                        _resetVoltageIfNeeded('trifasico');
+                      });
                       _recalculate();
                     },
                   )),
@@ -234,16 +270,7 @@ class _CalcularCorrienteScreenState extends State<CalcularCorrienteScreen>
               const SizedBox(height: 10),
               _buildDropdown<String>(
                 value: _voltageStr,
-                items: const {
-                  '120': '120 V',
-                  '127': '127 V',
-                  '208': '208 V',
-                  '220': '220 V',
-                  '240': '240 V',
-                  '277': '277 V',
-                  '440': '440 V',
-                  '460': '460 V',
-                },
+                items: _voltagesBySystem[_systemType]!,
                 icon: Icons.power_input_outlined,
                 onChanged: (v) {
                   setState(() {

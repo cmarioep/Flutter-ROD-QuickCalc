@@ -13,6 +13,21 @@ class CaidaTensionScreen extends StatefulWidget {
 
 class _CaidaTensionScreenState extends State<CaidaTensionScreen>
     with SingleTickerProviderStateMixin {
+  // ── Tensiones válidas por sistema ───────────────────────────────────────────
+  static const Map<String, Map<String, String>> _voltagesBySystem = {
+    'monofasico': {
+      '120': '120 V',
+      '127': '127 V',
+      '277': '277 V'
+    },
+    'trifasico': {
+      '208': '208 V',
+      '220': '220 V',
+      '440': '440 V',
+      '460': '460 V'
+    },
+  };
+
   // ── Estado del formulario ────────────────────────────────────────────────
   String _systemType = 'trifasico';
   String _voltageStr = '208';
@@ -48,6 +63,14 @@ class _CaidaTensionScreenState extends State<CaidaTensionScreen>
     _loadController.dispose();
     _longController.dispose();
     super.dispose();
+  }
+
+  void _resetVoltageIfNeeded(String newSystem) {
+    final validVoltages = _voltagesBySystem[newSystem]!;
+    if (!validVoltages.containsKey(_voltageStr)) {
+      _voltageStr = validVoltages.keys.first;
+      _voltage = double.parse(_voltageStr);
+    }
   }
 
   void _recalculate() {
@@ -169,16 +192,7 @@ class _CaidaTensionScreenState extends State<CaidaTensionScreen>
               const SizedBox(height: 10),
               _buildDropdown<String>(
                 value: _voltageStr,
-                items: const {
-                  '120': '120 V',
-                  '127': '127 V',
-                  '208': '208 V',
-                  '220': '220 V',
-                  '240': '240 V',
-                  '277': '277 V',
-                  '440': '440 V',
-                  '460': '460 V',
-                },
+                items: _voltagesBySystem[_systemType]!,
                 icon: Icons.power_input_outlined,
                 onChanged: (v) {
                   setState(() {
@@ -331,7 +345,10 @@ class _CaidaTensionScreenState extends State<CaidaTensionScreen>
           value: 'monofasico',
           group: _systemType,
           onTap: () {
-            setState(() => _systemType = 'monofasico');
+            setState(() {
+              _systemType = 'monofasico';
+              _resetVoltageIfNeeded('monofasico');
+            });
             _recalculate();
           },
         )),
@@ -342,7 +359,10 @@ class _CaidaTensionScreenState extends State<CaidaTensionScreen>
           value: 'trifasico',
           group: _systemType,
           onTap: () {
-            setState(() => _systemType = 'trifasico');
+            setState(() {
+              _systemType = 'trifasico';
+              _resetVoltageIfNeeded('trifasico');
+            });
             _recalculate();
           },
         )),
