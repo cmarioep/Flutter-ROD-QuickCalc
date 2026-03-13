@@ -6,6 +6,7 @@ import 'login_screen.dart';
 import 'seleccion_alimentador_screen.dart';
 import 'caida_tension_screen.dart';
 import 'calcular_corriente_screen.dart';
+import 'calcular_kva_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -175,7 +176,10 @@ class _HomeScreenState extends State<HomeScreen>
                         icon: Icons.power_rounded,
                         label: 'Calcular kVA',
                         subtitle: 'Potencia aparente del sistema',
-                        onTap: () => _showComingSoon(context, 'Calcular kVA'),
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (_) => const CalcularKvaScreen()),
+                        ),
                       ),
                     ]),
                   ),
