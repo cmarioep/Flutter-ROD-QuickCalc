@@ -213,35 +213,6 @@ class _CalcularKvaScreenState extends State<CalcularKvaScreen>
                 icon: Icons.bolt_outlined,
               ),
 
-              const SizedBox(height: 20),
-
-              // ── Chip de fórmula ───────────────────────────────────────
-              Center(
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 250),
-                  child: Container(
-                    key: ValueKey(_systemType),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: AppTheme.limeGreen.withOpacity(0.08),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                          color: AppTheme.limeGreen.withOpacity(0.3)),
-                    ),
-                    child: Text(
-                      _formula(),
-                      style: GoogleFonts.rajdhani(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.limeGreenDark,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-
               // ── Resultado ─────────────────────────────────────────────
               if (_kva != null) ...[
                 const SizedBox(height: 28),
@@ -494,30 +465,6 @@ class _CalcularKvaScreenState extends State<CalcularKvaScreen>
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: 12),
-              Container(
-                width: double.infinity,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _infoChip(
-                        'Sistema',
-                        _systemType == 'trifasico'
-                            ? 'Trifásico'
-                            : _systemType == 'bifasico'
-                                ? 'Bifásico'
-                                : 'Monofásico'),
-                    _infoChip('Tensión', '$_voltageStr V'),
-                    _infoChip('Fórmula', _formula()),
-                  ],
-                ),
               ),
             ],
           ),

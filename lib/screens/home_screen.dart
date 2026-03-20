@@ -7,6 +7,8 @@ import 'seleccion_alimentador_screen.dart';
 import 'caida_tension_screen.dart';
 import 'calcular_corriente_screen.dart';
 import 'calcular_kva_screen.dart';
+import 'ocupacion_ductos_screen.dart';
+import 'ocupacion_ductos_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -158,8 +160,10 @@ class _HomeScreenState extends State<HomeScreen>
                         icon: Icons.grid_view_rounded,
                         label: 'Ocupación de Ductos',
                         subtitle: 'Factor de relleno en tuberías',
-                        onTap: () =>
-                            _showComingSoon(context, 'Ocupación de Ductos'),
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (_) => const OcupacionDuctosScreen()),
+                        ),
                       ),
                       const SizedBox(height: 12),
                       MenuButton(
